@@ -1,0 +1,17 @@
+#!/bin/bash
+# This hook is run after every virtualenv is activated.
+# Eveything you do here must be restored in postdeactivate script
+
+VIRTUAL_ENV_NAME=$(echo $VIRTUAL_ENV | cut -d "/" -f5)
+INITIAL_PYTHONPATH=$PYTHONPATH  # used in postdeactivate to restore the PYTHONPATH
+
+export PS1="($VIRTUAL_ENV_NAME)@\w$ "
+
+if [ "$PYTHONPATH"="" ];
+then
+    export PYTHONPATH=~/Code/$VIRTUAL_ENV_NAME
+else
+    export PYTHONPATH=$PYTHONPATH:~/Code/$VIRTUAL_ENV_NAME
+fi
+
+cd ~/Code/$VIRTUAL_ENV_NAME
