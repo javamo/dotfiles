@@ -1,3 +1,15 @@
+export PS1="\u\w$ "
+alias ls="ls -G"
+alias ll="ls -lahG"
+alias gs="git status "
+alias tree="tree -C" # Use always color
+alias grep="grep -rin --color"
+alias bowerredo='rm -r bower_components && bower cache clean && bower install'
+
+function clean_pyc {
+    for i in $(find . -name '*.pyc'); do rm -f $i; done
+}
+
 function gh() {
   # Open up the github url for the branch you are on.
   giturl=$(git config --get remote.origin.url)
@@ -29,16 +41,34 @@ function addmod() {
   done
 }
 
-alias bowerredo='rm -r bower_components && bower cache clean && bower install'
+function jira() {
+  # Open up the jira issue url for the branch you are on.
+  url="https://jira.realmassive.com/browse/"
+  issue=$(git symbolic-ref HEAD 2>/dev/null | cut -d '/' -f 3 | cut -d '-' -f 1,2)
 
-function clean_pyc {
-    for i in $(find . -name '*.pyc'); do rm -f $i; done
+  if [ "$issue" == "" ]
+    then
+     echo "Dude, your branch has a weird name"
+     return 1
+  fi
+
+  url=$url$issue
+  open $url
+  echo $url
 }
 
-# For GAE environment
-# Taken from https://gist.github.com/3353248
-export WORKON_HOME=$HOME/envs
-source `which virtualenvwrapper.sh`
+function pivotal() {
+  # Open up the jira issue url for the branch you are on.
+  url="https://www.pivotaltracker.com/n/projects/608033/stories/"
+  issue=$(git symbolic-ref HEAD 2>/dev/null | cut -d '/' -f 3 | cut -d '-' -f1)
 
-#export CC=llvm-gcc-4.2
-#export CXX=llvm-g++-4.2
+  if [ "$issue" == "" ]
+    then
+     echo "Dude, your branch has a weird name"
+     return 1
+  fi
+
+  url=$url$issue
+  open $url
+  echo $url
+}
