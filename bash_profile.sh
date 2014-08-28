@@ -59,7 +59,7 @@ function jira() {
 
 function pivotal() {
   # Open up the jira issue url for the branch you are on.
-  url="https://www.pivotaltracker.com/n/projects/608033/stories/"
+  url="https://www.pivotaltracker.com/story/show/"
   issue=$(git symbolic-ref HEAD 2>/dev/null | cut -d '/' -f 3 | cut -d '-' -f1)
 
   if [ "$issue" == "" ]
